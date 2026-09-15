@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Database, File, Trash2, Download } from 'lucide-react';
 import { Card } from '../components/ui/Card';
-import { getActivities } from '../database/activityRepository';
+import { Button } from '../components/ui/Button';
+import { useToast } from '../components/ui/Toast';
+import { getActivities, clearActivities } from '../database/activityRepository';
 import { Activity as ActivityType } from '../types';
 
 export const Activity = () => {
   const [activities, setActivities] = useState<ActivityType[]>([]);
   const [loading, setLoading] = useState(true);
+  const { success, error } = useToast();
+
+  const loadActivities = async () => {
+    try {
+      const data = await getActivities();
+      setActivities(data);
+    } catch (err) {
+      console.error('Failed to load activities', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadActivities = async () => {
-      try {
-        const data = await getActivities();
-        setActivities(data);
-      } catch (err) {
-        console.error('Failed to load activities', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadActivities();
   }, []);
+
+  const handleClearActivities = async () => {
+    if (window.confirm('Are you sure you want to clear the entire activity log?')) {
+      try {
+        await clearActivities();
+        success('Activity log cleared successfully');
+        loadActivities();
+      } catch (err) {
+        error('Failed to clear activity log');
+      }
+    }
+  };
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -59,11 +75,19 @@ export const Activity = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-10">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-1">
-          <Clock size={24} className="text-aws" /> Activity Log
-        </h2>
-        <p className="text-slate-500">Track recent actions in your simulated S3 environment.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-1">
+            <Clock size={24} className="text-aws" /> Activity Log
+          </h2>
+          <p className="text-slate-500">Track recent actions in your simulated S3 environment.</p>
+        </div>
+        
+        {activities.length > 0 && (
+          <Button variant="danger" onClick={handleClearActivities} className="gap-2 shrink-0">
+            <Trash2 size={16} /> Clear Log
+          </Button>
+        )}
       </div>
 
       {activities.length === 0 ? (

@@ -12,3 +12,8 @@ export const createActivity = async (activity: Activity): Promise<void> => {
   const db = await getDB();
   await db.add('activities', activity);
 };
+
+export const clearActivities = async (): Promise<void> => {
+  const db = await getDB();
+  await db.clear('activities');
+};
