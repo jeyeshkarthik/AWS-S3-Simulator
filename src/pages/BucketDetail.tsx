@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, UploadCloud, RefreshCw, Filter, File, Image as ImageIcon, FileText, Video, LayoutList } from 'lucide-react';
+import { ArrowLeft, Search, UploadCloud, RefreshCw, Filter, File, Image as ImageIcon, FileText, Video, LayoutList, Download, Trash2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';

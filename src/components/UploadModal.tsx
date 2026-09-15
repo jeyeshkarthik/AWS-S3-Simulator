@@ -3,8 +3,8 @@ import { UploadCloud, X, File as FileIcon } from 'lucide-react';
 import { Modal } from './ui/Modal';
 import { Button } from './ui/Button';
 import { useToast } from './ui/Toast';
-import { createObject } from '../../database/objectRepository';
-import { createActivity } from '../../database/activityRepository';
+import { createObject } from '../database/objectRepository';
+import { createActivity } from '../database/activityRepository';
 
 interface UploadModalProps {
   isOpen: boolean;

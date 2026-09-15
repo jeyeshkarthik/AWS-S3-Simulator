@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { loadDemoData, clearDemoData } from '../data/demoData';
 import { 
   Database, 
   LayoutDashboard, 
@@ -33,6 +34,20 @@ const SidebarLink = ({ to, icon: Icon, label, onClick }: { to: string, icon: Rea
 export const MainLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  const handleLoadDemo = async () => {
+    if (window.confirm('Load demo data into the simulator?')) {
+      await loadDemoData();
+      window.location.reload();
+    }
+  };
+
+  const handleClearDemo = async () => {
+    if (window.confirm('Clear all demo data from the simulator? This will only remove demo buckets.')) {
+      await clearDemoData();
+      window.location.reload();
+    }
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -70,8 +85,12 @@ export const MainLayout = () => {
           <SidebarLink to="/activity" icon={Activity} label="Activity" />
         </nav>
 
-        <div className="p-4 border-t border-slate-200">
+        <div className="p-4 border-t border-slate-200 space-y-2">
           <SidebarLink to="/about" icon={Info} label="About S3" />
+          <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+            <button onClick={handleLoadDemo} className="text-xs text-blue-600 hover:underline text-left px-4">Load Demo Data</button>
+            <button onClick={handleClearDemo} className="text-xs text-red-600 hover:underline text-left px-4">Clear Demo Data</button>
+          </div>
         </div>
       </aside>
 

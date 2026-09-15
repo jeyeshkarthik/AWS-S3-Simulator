@@ -4,11 +4,9 @@ import { ToastProvider } from './components/ui/Toast';
 import { Dashboard } from './pages/Dashboard';
 import { Buckets } from './pages/Buckets';
 import { BucketDetail } from './pages/BucketDetail';
-
-// Placeholder components for routing
-const Analytics = () => <div className="p-4">Analytics coming soon...</div>;
-const Activity = () => <div className="p-4">Activity coming soon...</div>;
-const About = () => <div className="p-4">About S3 coming soon...</div>;
+import { Analytics } from './pages/Analytics';
+import { Activity } from './pages/Activity';
+import { About } from './pages/About';
 
 function App() {
   return (
